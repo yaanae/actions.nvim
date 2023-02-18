@@ -13,13 +13,16 @@ local populate = function(commands)
   for _, val in ipairs(commands) do
     print(vim.inspect(val))
     if type(val[2]) == "string" then
+      print("Command is a string")
       table.insert(result, {
         val[1],
         function()
           -- print("Called function")
           local win = vim.api.nvim_get_current_win()
+          local expanded_cmd = utils.expand_cmd(val[2], win, { env = false })
+          print(vim.inspect(expanded_cmd))
           local term = Terminal:new({
-            cmd = utils.expand_cmd(val[2], win, { env = false }),
+            cmd = expanded_cmd,
             close_on_exit = false,
           })
           -- print(vim.inspect(term))
@@ -27,6 +30,7 @@ local populate = function(commands)
         end,
       })
     else
+      print("Command is a function")
       table.insert(result, val)
     end
   end
@@ -34,8 +38,9 @@ local populate = function(commands)
   return result
 end
 
--- our picker function: colors
 local picker = function(opts, commands)
+  print("In picker, commands")
+  print(vim.inspect(commands))
   opts = opts or {}
   pickers
       .new(opts, {
@@ -43,6 +48,8 @@ local picker = function(opts, commands)
         finder = finders.new_table({
           results = commands,
           entry_maker = function(entry)
+            print("In picker, entry_maker, entry")
+            print(vim.inspect(entry))
             return {
               value = entry,
               display = entry[1],
