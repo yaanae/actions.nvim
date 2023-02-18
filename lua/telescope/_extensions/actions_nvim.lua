@@ -64,11 +64,16 @@ local picker = function(opts, commands)
 end
 
 local function run(opts)
-  picker(opts, populate(get_actions()))
+  print(vim.inspect(opts))
+  print(vim.inspect(get_actions))
+  local config_actions = get_actions()
+  print(vim.inspect(config_actions))
+  picker(opts, populate(config_actions))
 end
 
 return require("telescope").register_extension({
   setup = function(config)
+    print(vim.inspect(config))
     get_actions = config.get_actions
   end,
   exports = {
