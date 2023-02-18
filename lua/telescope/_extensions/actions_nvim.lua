@@ -7,11 +7,11 @@ local action_state = require("telescope.actions.state")
 local utils = require("actions_nvim.utils")
 
 local populate = function(commands)
-  -- print(vim.inspect(commands))
+  print(vim.inspect(commands))
   local Terminal = require("toggleterm.terminal").Terminal
   local result = {}
   for _, val in ipairs(commands) do
-    -- print(vim.inspect(val))
+    print(vim.inspect(val))
     if type(val[2]) == "string" then
       table.insert(result, {
         val[1],
