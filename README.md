@@ -7,7 +7,7 @@ allowing for powerful control over all functions.
 Actions mostly exists for myself, so do not expect
 that it will be actively maintained.
 
-## Simple configuration
+## Basic configuration
 ```lua
 require("actions_nvim").setup({
   get_values = function()
@@ -20,7 +20,7 @@ require("actions_nvim").setup({
       },
       {"Call command in Toggleterm", "echo Hi!"},
     }
-    if "lua" == "lua" do
+    if "lua" == "lua" then
       table.insert(result, {"Exists conditionally", "echo lua==lua"})
     end
     return result

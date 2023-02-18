@@ -86,4 +86,12 @@ end
 
 local M = {}
 M.run = run
+
+function M.setup(opts)
+  if opts == nil then
+    return
+  end
+  M.opts = opts
+end
+
 return M
