@@ -32,16 +32,18 @@ require("telescope").setup {
         local filetype = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(win), "filetype")
         local actions = {
           {
-            "Call function",
-            function() vim.api.nvim_put({ "text" }, "", false, true) end,
+            name = "Call function",
+            cmd = function() vim.api.nvim_put({ "text" }, "", false, true) end,
           },
-          { "Call command in Toggleterm", "echo Hi!" },
-          { "Expand commands", "echo ${file}" },
-          { "with filename modifiers", "echo ${file:h}"}, -- Echoes directory
-          { "or without expansion", "echo $${file}"}, -- Echoes "${file}"
-          { "More lua", string.format("echo %s", filetype) }
+          { name = "Call command in Toggleterm", cmd = "echo Hi!" },
+          { name = "Expand commands", cmd = "echo ${file}" },
+          { name = "with filename modifiers", cmd = "echo ${file:h}"}, -- Echoes directory
+          { name = "or without expansion", cmd = "echo $${file}"}, -- Echoes "${file}"
+          { name = "More lua", cmd = string.format("echo %s", filetype) }
         }
-        if ft == "lua" then table.insert(actions, { "Show actions conditionally", "echo filetype==lua" }) end
+        if filetype == "lua" then
+          table.insert(actions, { name = "Show actions conditionally", cmd = "echo filetype==lua" }) 
+        end
         return actions
       end,
     },
