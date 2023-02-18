@@ -12,14 +12,15 @@ local populate = function(commands)
   local result = {}
   for _, val in ipairs(commands) do
     print(vim.inspect(val))
-    if type(val[2]) == "string" then
+    print(type(val.cmd))
+    if type(val.cmd) == "string" then
       print("Command is a string")
       table.insert(result, {
-        val[1],
-        function()
+        name = val.name,
+        cmd = function()
           -- print("Called function")
           local win = vim.api.nvim_get_current_win()
-          local expanded_cmd = utils.expand_cmd(val[2], win, { env = false })
+          local expanded_cmd = utils.expand_cmd(val.cmd, win, { env = false })
           print(vim.inspect(expanded_cmd))
           local term = Terminal:new({
             cmd = expanded_cmd,
@@ -31,7 +32,7 @@ local populate = function(commands)
       })
     else
       print("Command is a function")
-      table.insert(result, val)
+      table.insert(result, { name = val.name, cmd = val.cmd })
     end
   end
 
@@ -52,8 +53,8 @@ local picker = function(opts, commands)
             print(vim.inspect(entry))
             return {
               value = entry,
-              display = entry[1],
-              ordinal = entry[1],
+              display = entry.name,
+              ordinal = entry.name,
             }
           end,
         }),
@@ -65,7 +66,7 @@ local picker = function(opts, commands)
             -- print(vim.inspect(selection))
             -- These curly braces are required.
             -- vim.api.nvim_put({ selection.value[1] }, "", false, true)
-            selection.value[2]()
+            selection.value.cmd()
           end)
           return true
         end,
