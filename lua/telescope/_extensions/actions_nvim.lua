@@ -4,6 +4,8 @@ local conf = require("telescope.config").values
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 
+local utils = require("actions_nvim.utils")
+
 local populate = function(commands)
   -- print(vim.inspect(commands))
   local Terminal = require("toggleterm.terminal").Terminal
@@ -15,8 +17,9 @@ local populate = function(commands)
         val[1],
         function()
           -- print("Called function")
+          local win = vim.api.nvim_get_current_win()
           local term = Terminal:new({
-            cmd = val[2],
+            cmd = utils.expand_cmd(val[2], win, { env = false }),
             close_on_exit = false,
           })
           -- print(vim.inspect(term))
