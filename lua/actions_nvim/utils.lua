@@ -132,10 +132,15 @@ local function expand_cmd(str, win, opts)
     return expand_vars(str, expand)
 end
 
+local function get_keys(t)
+  local keys={}
+  for key,_ in pairs(t) do
+    table.insert(keys, key)
+  end
+  return keys
+end
+
 M = {}
 M.expand_cmd = expand_cmd
+M.get_keys = get_keys
 return M
-
--- local win = vim.api.nvim_get_current_win()
--- local result = expand_cmd("echo ${file}", win, { env = false })
--- print(result)

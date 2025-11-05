@@ -23,6 +23,15 @@ use {
 ```
 
 ### Configuration
+Configuration is done with a single function. It can do anything, such as
+determine what language your current buffer is.
+
+It should then return a list of actions, which must have a `name`
+(which will be displayed in telescope) and a `cmd` (which can
+be a lua function or a shell command). Optionally, it can
+also have the `terminal` key, which will determine it's
+toggleterm instance.
+
 ```lua
 require("telescope").setup {
   extensions = {
@@ -35,7 +44,11 @@ require("telescope").setup {
             name = "Call function",
             cmd = function() vim.api.nvim_put({ "text" }, "", false, true) end,
           },
-          { name = "Call command in Toggleterm", cmd = "echo Hi!" },
+          { 
+            name = "Call command in Toggleterm",
+            cmd = "echo Hi!",
+            terminal = 
+          },
           { name = "Expand commands", cmd = "echo ${file}" },
           { name = "with filename modifiers", cmd = "echo ${file:h}"}, -- Echoes directory
           { name = "or without expansion", cmd = "echo $${file}"}, -- Echoes "${file}"
@@ -60,3 +73,17 @@ Available options for command expansions are:
 * `${cursor_line}` - cursor line of the current window
 * `${cursor_column}` - cursor column of the current window
 
+### Usage
+The plugin provides two telescope extensions. `actions_nvim` is used to
+see and run the actions.
+
+If you use the `terminal` key in the configuration, then you can use
+the telescope extension `actions_nvim_terminals`. It allows you to see
+all the terminals which are currently running (or are finished running).
+
+To access the terminals programmatically, you can do the following:
+```lua
+local terminals = require("actions_nvim").terminals
+-- { "terminal_name" = <toggleterm terminal>, ... }
+terminals["terminal_name"]:toggle()
+```

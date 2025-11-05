@@ -1,1 +1,3 @@
-return {}
+local M = {}
+M.terminals = {}
+return M
