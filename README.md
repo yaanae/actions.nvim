@@ -47,9 +47,9 @@ require("telescope").setup {
           { 
             name = "Call command in Toggleterm",
             cmd = "echo Hi!",
-            terminal = 
+            terminal = "echos";
           },
-          { name = "Expand commands", cmd = "echo ${file}" },
+          { name = "Expand commands", cmd = "echo ${file}", terminal = "echos" },
           { name = "with filename modifiers", cmd = "echo ${file:h}"}, -- Echoes directory
           { name = "or without expansion", cmd = "echo $${file}"}, -- Echoes "${file}"
           { name = "More lua", cmd = string.format("echo %s", filetype) }
@@ -87,3 +87,5 @@ local terminals = require("actions_nvim").terminals
 -- { "terminal_name" = <toggleterm terminal>, ... }
 terminals["terminal_name"]:toggle()
 ```
+
+Terminal actions that don't have a `terminal` property will default to `actions_nvim`.
